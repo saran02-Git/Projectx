@@ -19,5 +19,5 @@ phases:
 
       - echo Updating Kubernetes deployment
       - aws eks update-kubeconfig --region ap-south-1 --name Cluster-braintask
-      - kubectl apply -f deployment.yaml
-      - kubectl apply -f service.yaml
+      - kubectl apply -f Brain-Tasks-App/deployment.yaml
+      - kubectl apply -f Brain-Tasks-App/service.yaml
