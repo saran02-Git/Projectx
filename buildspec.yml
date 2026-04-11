@@ -16,3 +16,8 @@ phases:
     commands:
       - echo Pushing image
       - docker push saran0702/brain-app:latest
+
+      - echo Updating Kubernetes deployment
+      - aws eks update-kubeconfig --region ap-south-1 --name Cluster-braintask
+      - kubectl apply -f deployment.yaml
+      - kubectl apply -f service.yaml
