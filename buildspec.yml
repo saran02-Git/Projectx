@@ -1,4 +1,3 @@
-
 version: 0.2
 
 phases:
@@ -19,6 +18,6 @@ phases:
       - docker push saran0702/brain-app:latest
 
       - echo Updating Kubernetes deployment
-      - aws eks update-kubeconfig --region ap-south-1 --name Cluster-braintask --role-arn arn:aws:iam::017777088392:role/codebuild-brain-build-service-role
+      - aws eks update-kubeconfig --region ap-south-1 --name Cluster-braintask
       - kubectl apply -f deployment.yml
       - kubectl apply -f service.yaml
