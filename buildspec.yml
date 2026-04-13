@@ -5,6 +5,7 @@ phases:
     commands:
       - echo Logging in to DockerHub
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      - export KUBECONFIG=$HOME/.kube/config
 
   build:
     commands:
@@ -18,6 +19,6 @@ phases:
       - docker push saran0702/brain-app:latest
 
       - echo Updating Kubernetes deployment
-      - aws eks update-kubeconfig --region ap-south-1 --name Cluster-braintask
+      - aws eks update-kubeconfig --region ap-south-1 --name Cluster-braintask --kubeconfig $HOME/.kube/config
       - kubectl apply -f deployment.yml
       - kubectl apply -f service.yaml
