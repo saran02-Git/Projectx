@@ -16,5 +16,5 @@ spec:
       - name: brain-app
         image: saran0702/brain-app:latest
         ports:
-        - containerPort: 80
+        - containerPort: 3000
 
