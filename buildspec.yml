@@ -1,34 +1,36 @@
-version: 0.2
+version: 0.2  # Buildspec version
 
 env:
   variables:
-    AWS_DEFAULT_REGION: ap-south-1
-    AWS_SDK_LOAD_CONFIG: "1"
+    AWS_DEFAULT_REGION: ap-south-1   # AWS region (Mumbai)
+    AWS_SDK_LOAD_CONFIG: "1"         # Enable AWS CLI config loading
 
 phases:
   pre_build:
     commands:
-      - echo Logging in to DockerHub
-      - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      - echo Logging in to DockerHub   # Step: login message
+      - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin  # Secure DockerHub login
 
   build:
     commands:
-      - echo Build started
-      - docker build -t brain-app .
-      - docker tag brain-app saran0702/brain-app:latest
+      - echo Build started   # Build phase start
+      - docker build -t brain-app .   # Build Docker image from current directory
+      - docker tag brain-app saran0702/brain-app:latest   # Tag image for DockerHub repo
 
   post_build:
     commands:
-      - echo Pushing image
-      - docker push saran0702/brain-app:latest
+      - echo Pushing image   # Push phase start
+      - docker push saran0702/brain-app:latest   # Push image to DockerHub
 
-      - echo Updating Kubernetes deployment
-      - aws eks update-kubeconfig --region ap-south-1 --name Cluster-braintask
+      - echo Updating Kubernetes deployment   # Deployment phase
 
-      #FIX: install authenticator
+      - aws eks update-kubeconfig --region ap-south-1 --name Cluster-braintask  
+        # Connect to EKS cluster
+
+      # Install AWS IAM Authenticator (required for kubectl authentication)
       - curl -o aws-iam-authenticator https://amazon-eks.s3.ap-south-1.amazonaws.com/1.27.0/2023-11-14/bin/linux/amd64/aws-iam-authenticator
-      - chmod +x aws-iam-authenticator
-      - mv aws-iam-authenticator /usr/local/bin/
+      - chmod +x aws-iam-authenticator   # Make executable
+      - mv aws-iam-authenticator /usr/local/bin/   # Move to system path
 
-      - kubectl apply -f deployment.yml
-      - kubectl apply -f service.yaml
+      - kubectl apply -f deployment.yml   # Apply Kubernetes deployment
+      - kubectl apply -f service.yaml     # Apply Kubernetes service
