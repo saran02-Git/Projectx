@@ -19,8 +19,8 @@ GitHub → CodePipeline → CodeBuild → DockerHub → Amazon EKS → LoadBalan
 
 Workflow:
 
-1.Code is pushed to GitHub repository.
-2.CodePipeline triggers automatically.
+1.Code is pushed to GitHub repository
+2.CodePipeline triggers automatically
 3.CodeBuild:
             * Builds Docker image
             * Tags and pushes image to DockerHub
